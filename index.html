@@ -53,7 +53,7 @@ const GAS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz14gOrw6qvKaQxD
 
 // ── State ──
 window.allData = [];
-window.currentUser = null;
+window.current = null;
 window.currentView = 'dashboard';
 window.searchTerm = '';
 window.txFilter = 'all';
@@ -62,7 +62,7 @@ window.showMobileMenu = false;
 window.showStockModal = null; // 'low' or 'out'
 window.reportDateStart = '';
 window.reportDateEnd = '';
-window.reportSelectedUser = null;
+window.reportSelected = null;
 window.dashboardTodayModal = false;
 window.showTopItemsModal = false;
 window.topItemsFullList = [];
@@ -1201,9 +1201,21 @@ function bindEvents() {
       const user = getUsers().find(u=>u.__backendId===uid);
       if (user) {
         showPinModal('Login sebagai ' + user.name, (pin) => {
-          if ((pin || '').toString() === (user.pin || '').toString())) { currentUser = user; hidePinModal(); render(); }
-          else { pinModal.error = 'PIN salah!'; render(); }
-        });
+  if (!pin) {
+    pinModal.error = 'PIN wajib diisi';
+    render();
+    return;
+  }
+
+  if ((pin || '').toString() === (user.pin || '').toString()) {
+    currentUser = user;
+    hidePinModal();
+    render();
+  } else {
+    pinModal.error = 'PIN salah!';
+    render();
+  }
+});
       }
     };
   });

@@ -1201,7 +1201,7 @@ function bindEvents() {
       const user = getUsers().find(u=>u.__backendId===uid);
       if (user) {
         showPinModal('Login sebagai ' + user.name, (pin) => {
-          if (pin === user.pin) { currentUser = user; hidePinModal(); render(); }
+          if ((pin || '').toString() === (user.pin || '').toString())) { currentUser = user; hidePinModal(); render(); }
           else { pinModal.error = 'PIN salah!'; render(); }
         });
       }

@@ -1659,6 +1659,25 @@ function bindEvents() {
       if(r.isOk){changePinModal={show:false,userId:'',newPin:'',error:''};showToast('PIN berhasil diubah');}else{changePinModal.error='Gagal mengubah PIN';}render();
     });
   };
+
+ document.querySelectorAll('[data-del-user]').forEach(btn => {
+  btn.onclick = () => {
+    const id = btn.dataset.delUser;
+
+    showConfirm('Yakin ingin menghapus user ini?', async () => {
+      const res = await deleteData({ __backendId: id });
+
+      if (res.success) {
+        showToast('User berhasil dihapus');
+        await loadAllData();
+      } else {
+        showToast('Gagal menghapus user', 'error');
+      }
+
+      hideConfirm();
+    });
+  };
+});
 }
 
 // ── SDK Init ──

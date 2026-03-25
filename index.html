@@ -100,8 +100,12 @@ async function callGAS(action, data = {}) {
 async function loadAllData() {
   const result = await callGAS('getAllData');
   if (result.success) {
-    window.allData = result.data || [];
-    render();
+   window.allData = result.data || [];
+
+// JANGAN render kalau modal sedang terbuka
+if (!showItemForm) {
+  render();
+}
   } else {
     showToast('Gagal memuat data', 'error');
   }
